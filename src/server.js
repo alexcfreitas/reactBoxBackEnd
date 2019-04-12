@@ -1,14 +1,13 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
-const cors = require("cors");
 
 const app = express();
-
-app.use(cors());
-
 const server = require("http").Server(app);
 const io = require("socket.io")(server);
+const cors = require("cors");
+
+app.use(cors());
 
 io.on("connection", socket => {
   socket.on("connectRoom", box => {
@@ -25,9 +24,6 @@ mongoose.connect(
 
 app.use((req, res, next) => {
   req.io = io;
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-  res.header("Access-Control-Allow-Headers", "Content-Type");
   return next();
 });
 
